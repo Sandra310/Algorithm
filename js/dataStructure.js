@@ -138,7 +138,11 @@ function LinkedList() {
     return false
   }
 
+  /* 思路：next暂存除了第一个节点之外的后面部分
+          让第一个节点连接prev       最初为 节点1->null
+          把连接好的节点给prev
 
+   *  */
   this.reverse = function () {  //链表反转
     var current = head,
         prev = null
@@ -153,15 +157,87 @@ function LinkedList() {
 }
 
 /*二叉树*/
-/*
-*
+/*根据访问根元素的前后顺序，遍历方式可分为：深度优先（根据根节点相对于左右子节点的访问顺序可分为：前序、中序、后序）、广度优先
+* 前序：根->左->右
+* 中序：左->根->右
+* 后序：左->右->根
 * */
 function BinaryTree() {
   var TreeNode = function (val) {
     this.left = null
     this.right = null
     this.val = val
+    this.key = key
+  }
+  var root = null
+
+  this.preorder = function (node) { // 前序遍历
+    if(node){
+      console.log(node.val)
+      this.preorder(node.left)
+      this.preorder(node.right)
+    }
   }
 
-  
+  this.inorder = function (node) { // 中序遍历
+    if(node){
+      this.inorder(node.left)
+      console.log(node.val)
+      this.inorder(node.right)
+    }
+  }
+
+  this.postorder = function (node) { // 后序遍历
+    if(node){
+      this.inorder(node.left)
+      this.inorder(node.right)
+      console.log(node.val)
+    }
+  }
+
+  this.levelOrderTraversal = function (node) { //广度优先
+    if(node){
+      var que = []
+      que.push(node)
+      while (que.length !== 0){
+        node = que.shift() //把数组中第一个元素删除并返回
+        console.log(node.val)
+        if(node.left) que.push(node.left)
+        if(node.right) que.push(node.right)
+      }
+    }
+  }
+}
+
+/* 二叉查找树
+* 每个节点含有键及相应的值，每个节点的键都大于等于左子树中任意节点的键，小于右子树种任意节点键
+* 使用中序遍历可得到有序数组。  http://www.cnblogs.com/Cathamerst/p/7231182.html
+* */
+function BinarySearchTree() {
+  var TreeNode = function (key) {
+    this.left = null
+    this.right = null
+    this.key = key
+  }
+  var root = null
+
+  this.insertNode = function (newNode) {
+    var node = root
+    if(newNode.key < node.key){
+      if(node.left === null){
+        node.left = newNode
+      }else{
+        this.insertNode(node.left, newNode)
+      }
+    }else{
+      if(node.right === null){
+        node.right = newNode
+      }else{
+        this.insertNode(node.right, newNode)
+      }
+    }
+  }
+
+
+
 }
